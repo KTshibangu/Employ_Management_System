@@ -1,0 +1,10 @@
+- install react under client
+- install tailwind css
+- add import in the vite.config
+- add tailwind() in the plugins
+- import tailwind in index.css
+- take assets.jsx and index.css from source code this is to simply display dummy data until we build our backend
+- copy the index.css content to index.css
+- install react-router-dom lucide-react react-hot-toast
+- in main.jsx import react-router-dom
+- install code rabbit - to monitor bugs and code efficiency
