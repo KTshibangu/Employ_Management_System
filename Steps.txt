@@ -40,6 +40,32 @@
 - should have labels and inputs - input with onchange - password input to be dymanic with show  password
 - add an icon button for show password - ensure the icon can be toggle and that the icon is dynamic
 - add a sign in button - disabled when loading - also add when loading to display Loader2icon
+- commit code to dev branch and let code rabbit review - then merge to main
+- in vs code pull changes
+- create sidebar componnent 
+- const pathname = uselocation
+- create a state variable for username and mobileopen
+- when component loads, useeffect the profile name and surname from dummy data
+- when route change, close mobile menu - using useeffect and pathname
+- return a button with onclick to setmobileopen true
+- mobile overlay when mobile =open is true and setmobileopen false
+- create a variable sidebar content
+- sidebar desktop with sidebarcontent 
+- sidebar mobile with sidebarcontent
+- populat the sidebarcontent
+- mount the sidebar on the layout page
+- create a role var which should empty or emoyee
+- complete the user profile card
+- add the navigation label
+- create a navitems array with all navigation list 
+- for employee and attendance - this is dynamic based on roles
+- in navigation list section - map the navitems
+- create a isactive var = pathname.startwith(item.href)
+- return the Link - display name and icon
+- dynamically use isactive to to toggle the small rectangle on the left and chevronrighticon 
+- in the logout section add a logout button- style the button
+- create a handlelogout function = window.location.href = '/login'
+
 
 
 
