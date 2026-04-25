@@ -7,4 +7,39 @@
 - copy the index.css content to index.css
 - install react-router-dom lucide-react react-hot-toast
 - in main.jsx import react-router-dom
-- install code rabbit - to monitor bugs and code efficiency
+- register with code rabbit - to monitor bugs and code efficiency
+- first push project to git hub then add the repository in code rabbit
+- add a dev branch
+- we will commit the changes to the dev branch
+- then we will make a pull request 
+- code rabbit will review then after we can merge in the main branch
+- create pages - dashboard, Employee, Layout, Leave, Loginlanding, Payslips, PrintPayslip, Settings
+- in App, import toaster from hot-toast and Routes, Route from react=router-dom
+- Toaster will be returned after <>
+- then Define routes and Route
+- first route is the Loginlanding
+- second route is layout which will house all the other pages (dashboard, employees, attendance, leave, Payslips, settings)
+- another route with path 'print/payslip/:id' and the PrintPayslip element
+- another route to direct everythine else to dashbaord - path * and element navigate to dashbaord replace
+- in the layout page - add some structure for sidebar to on the side and main to house <Outlet/>
+- create a login component - add two route for 'login/admin' and 'login/employee' with the correct props
+- create a loginleftside component - and style
+- mount the loginleftside in Loginlanding page and add page styling
+- after the loginleftside - add a div for the right hand side of the Loginlanding
+- add a header, portal list and footer comments
+- create a PortalOptions array of objects and use it to map portal - keys {to, title, description and icon}
+- add the header texts
+- map portal lists and style
+- add footer
+- design the loginform.jsx - main div will house the loginleftside and other div which will have the login from
+- the right side will have a back button 
+- in the loginform function pass in the props from App.jsx which will be desctrured
+- to handle errors, create state variables for email, password, showpassword, error, loading
+- below the subtitle, have an if error display error in a div
+- below that have a form with a onsbmit of handlesubmit
+- should have labels and inputs - input with onchange - password input to be dymanic with show  password
+- add an icon button for show password - ensure the icon can be toggle and that the icon is dynamic
+- add a sign in button - disabled when loading - also add when loading to display Loader2icon
+
+
+
