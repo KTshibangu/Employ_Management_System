@@ -65,6 +65,22 @@
 - dynamically use isactive to to toggle the small rectangle on the left and chevronrighticon 
 - in the logout section add a logout button- style the button
 - create a handlelogout function = window.location.href = '/login'
+- in dashboard page, create a data state var and a loading state var
+- when page loads, effect - set data to dummydshboard data
+- settimeout for loading to false to 1000
+- if loading - return Loading component
+- if no data - return message
+- display different dashboard headers depending on the role
+- create the loading component with a self closing div that animate a spin
+- create an EmployeeDashboard component and pass in data as a props
+- create a emp var for data.employee
+- create a card array for each card and the info they will display
+- in the return statement - return everything that will appear on the dahsboard page - the header, the card using the map method
+- add two Link as buttons for Mark attendance and Apply leave
+- create the admin dashboard componentt passing data as prop
+- create a stat array var for the stats we will display on the dashboard
+- copy the structure from employeedashboard and adjust it accordingly
+- mount the admindashboard on dashboard page 
 
 
 
