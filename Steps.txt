@@ -81,7 +81,61 @@
 - create a stat array var for the stats we will display on the dashboard
 - copy the structure from employeedashboard and adjust it accordingly
 - mount the admindashboard on dashboard page 
-
-
-
-
+- in employees, create a employees, loading state var
+- create a fetchemployees function using usecallback and aync with settime out
+- call this function whEn components load
+- start stying the page wuth header section, input section and card section
+- create a search and selecteddept state var
+- for input use onchange and the state variables created
+- for select use onchnage as well and for options use the DEPARTMENTS array from assets
+- go back to the dummyemployee data in the fetch function and filter by selected department
+- create a filtered variable - this will filter the names as a user searches 
+- for employee cards - if loading else display employees
+- check if filtered length is 0 return a p tag (no employee found)
+- else display the employee
+- create an employeecard - pass props employee, ondelete onedit
+- after styliing this component - mount it on the employee page woth the correct props
+- create editemployee and showcreatemodal state var 
+- pass props onDelete={fetchEmployees} onEdit={(e) => setEditEmployees()}
+- got back to employee card and display also initials
+- display also the employee department or remote
+- if the employee is deleted display deleted
+- if !employee.isdeleted display a div and a button which onclick to onedit pass in employee and another button with onclick delete pass handledelete
+- create a handledelete function if(!confirm("))return
+- in the employees when showmodal && div with onclick set it to false
+- a div within with onclick e.stopPropagation
+- within this div - put a h2 and a p and a button with an x icon to close modal 
+- up in the add new employee button - add an onclick to show modal
+- in the edit employee modal section - add a div with an onclick to setEditEmployees to null
+- within the div add another div with e.stopPropagation()
+- add another div for flex eyc..
+- add another for h2 p this can be copied from the first modal
+- also button can be copied - replcae the onclick to seteditemployee
+- create a employeeform component with these props initialdata, onsuccess, oncancel
+- create a navigate using usenavigate 
+- create a loading state var
+- create a iseditmode = !!initialdata
+- create a hadnelsubmit = e.prevent default
+- start filling the form with labels and inputs 
+- input with nme required and default value attribute 
+- for join date we need to convert the date and use itenrary operator
+- last one is a text area for bio - breif description
+- mount employeeform in the edit form  
+- pass the initialdata prop as editemployee, onsuccess prop as seteditemployee, fetchemployee and oncancel with seteditemployee
+- mount the employee form in the add form
+- pass the prop as onsuccess close modal and fetchemployee and oncancel as close modal
+- in the employeeform add a div with label and select 
+- first option is select department 
+- for the other options map the DEPARTMENTS array
+- below that add position and basic salary , allowances and deductions
+- if iseditmode && then div containing select for employement status - active and inactive
+- copy the entire personal information div for account set up section
+- in this section the first label will be work email - delete the register
+- if not editmode && temporary password
+- if editmode && change password 
+- add another div for system role label which will be a select with two options "employee or admini
+- next section is the buttons
+- add a cancel button with onclick if oncacnel then oncancel() or navigate(-1)
+- add a button wehere disabled when loading 
+- its content wehn loading should have a loading icon - and iseditmode - uodate employee 0r create empoyee
+- review the code with code rabbit
