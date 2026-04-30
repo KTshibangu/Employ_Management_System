@@ -23,7 +23,7 @@ const Employees = () => {
 
   useEffect(() => {
     fetchEmployees()
-  }, [])
+  }, [fetchEmployees])
 
   const filtered = employees.filter((emp) => `${emp.firstName} ${emp.lastName} ${emp.position}`
     .toLocaleLowerCase().includes(search.toLocaleLowerCase()))

@@ -83,12 +83,13 @@
 - mount the admindashboard on dashboard page 
 - in employees, create a employees, loading state var
 - create a fetchemployees function using usecallback and aync with settime out
-- call this function whEn components load
+- call this function whEn components load and pas in fetchemployees as dependencie of the useeefect
 - start stying the page wuth header section, input section and card section
 - create a search and selecteddept state var
 - for input use onchange and the state variables created
 - for select use onchnage as well and for options use the DEPARTMENTS array from assets
 - go back to the dummyemployee data in the fetch function and filter by selected department
+- pass selecteddept in the async array
 - create a filtered variable - this will filter the names as a user searches 
 - for employee cards - if loading else display employees
 - check if filtered length is 0 return a p tag (no employee found)
@@ -139,3 +140,29 @@
 - add a button wehere disabled when loading 
 - its content wehn loading should have a loading icon - and iseditmode - uodate employee 0r create empoyee
 - review the code with code rabbit
+- in attendance, create a history, loading and isdeleted state variable
+- create a fetchdata usecallback async function which sets history data
+- settimeout where loading stops
+- when components loads call the fetchdata function and fetchdata as dependencie
+- below tha, if loading return loading component
+- create a today var = new date - today.sethours(0,0,0,0)
+- create a today record which goes through history to find the date that equals today's date - use todatestring()
+- start filling the div in the return with page title and subtitle
+- remove the "ADMIN" in the sidebar to see Employee sidebar and navigate to attendance
+- if isdeleted - in div let employee know he can no longer check in because his records have been deleted
+- else - we will mount the attendance form component 
+- under component - create attendance foldeer with attendancestats, attendancehisotry, checkinbutton components
+- in checkinbutton - pass in todayrecord and onaction props
+- create a loading state var
+- create a handlesubmit async function setting loading to true and when time out loading false also calling onaction with 1000 
+- create a ischedin var = to the boolean of todayrecord.checkedin
+- in the return div - create a button which if loading display loading icon else if ischeckedin logouticon else loginicon
+- within that button element - add an h2 element - is loading - "Processing" else if ischeckedin "clock out" else "clock in"
+- add also a p element ischeckin - "click to end your shift" : "start your work day"
+- mount the checkinbutton to the attendance with the correct props onaction= fetchdata
+- style button and call handlesumbit with onclick
+- in attendancestats, pass history props 
+- create a totalPresent var = to a filter of history.length for days present ("present" or "LATE")
+- create a stats array of objects for days present, late arrivals and avg work hrs
+- start stying the return div by mapping the stats array.
+
