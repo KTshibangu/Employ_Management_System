@@ -163,6 +163,22 @@
 - style button and call handlesumbit with onclick
 - in attendancestats, pass history props 
 - create a totalPresent var = to a filter of history.length for days present ("present" or "LATE")
+- create a totalLate var = to a filter of history.length for days arrived LATE
 - create a stats array of objects for days present, late arrivals and avg work hrs
 - start stying the return div by mapping the stats array.
+- mount attendance stats and pass in props for history
+- mount attendancehistory and pass in props for history
+- in attendancehistory pass in history as props
+- after h3 of recent activity - return a table for date, check in, check out, work hours, day type, status
+- for tbody if history length is 0, tr -> td No records found
+- else history.map - first create a daytype = getdaytypedisplay(record) (defined in the assets) then tr -> td for every heading
+- npm install date-fns
+- import format from date-fns
+- use format(new Date(record.date), 'MMM dd, yyyy') 
+- for checkin and checkout - if record.checkIn - format(new Date(record.date), 'hh:mm a') or '-'
+- for working hours - use the asset function getworkinghoursdisplay
+- for day type - dayType.label !== "-" ? <span className={`badge ${dayType.className}`}>{dayType.label}</span> : "-"
+- for status - the classname will be dynamic based on the record status from assets
+
+
 
