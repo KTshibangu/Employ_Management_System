@@ -1,8 +1,9 @@
 import React from 'react'
-import { AlertCircleIcon, Calendar1Icon, ClockIcon } from 'lucide-react';
+import { AlertCircleIcon, CalendarIcon, ClockIcon } from 'lucide-react';
 
 const AttendanceStats = ({ history }) => {
     const totalPresent = history.filter((h) => h.status === "PRESENT" || h.status === "LATE").length;
+    const totalLate = history.filter((h) => h.status === "LATE").length;
 
     const stats = [
         {
