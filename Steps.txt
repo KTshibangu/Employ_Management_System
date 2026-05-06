@@ -179,6 +179,21 @@
 - for working hours - use the asset function getworkinghoursdisplay
 - for day type - dayType.label !== "-" ? <span className={`badge ${dayType.className}`}>{dayType.label}</span> : "-"
 - for status - the classname will be dynamic based on the record status from assets
-
-
+- in Leave.jsx - create a leaves, loading, showmodal, isdeleted state var
+- create a isAdmin var 
+- create a fetchleaves function usecallback - setleaves to dummydata - settimeout which sets loading to false 
+- upon component loading call fetchdata() - and fetchdata as dependency
+- if loading - mount the Loading component
+- create a approvedleaves var = a filter of leaves where status === APPROVED
+- create sick count var = a filter of approved leaves.length where type === sick
+- create casualcount where type ===  casual 
+- create annualcount where type === annual
+- create a leavestats = an array of objects for label, value and icon
+- in the main return - return the Leave header and the subtile is dynamic based on isAdmin
+- below that div, if is not admin and is not deleted have a button for apply leave which show modal on click
+- below that - is not isAdmin - loop leavestats to display label, icon and value 
+- create a Leave folder in components - create leavehistory
+- copy all the content from attendancehistory
+- pass in props leaves, isadmin, onupdate
+-  
 
