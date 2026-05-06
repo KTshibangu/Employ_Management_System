@@ -195,5 +195,43 @@
 - create a Leave folder in components - create leavehistory
 - copy all the content from attendancehistory
 - pass in props leaves, isadmin, onupdate
--  
+- create a processing state var (null)
+- create an async handlestatusupdate function with id and status as params = setprocessing(id)
+- remove recent activity in the return
+- in the thead el - some headers will be dynamic based on isAdmin
+- if leaves.length is 0 - make the td colspan dynamic based on isAdmin
+- then map the leaves - if isadmin return employee name and surname for the td 
+- in the second td - return span with leave.type
+- next td is the date - start date - end date
+- the next td is for leave.reason
+- and the next td is for status with dynamic classname 
+- last td will be if isadmin - return td if leave status is pending return div with button 
+- if the processing === leave.id return loader icon else return check
+- copy the button and change the last icon to an x
+- style both buttons and add a disabled property to !!processing
+- add onclick to call handlestatusupdate pass in the id and status approved and rejected
+- mount leavehistory to leave.jsx with the correct props onupdate=fetchleaves
+- cretae an Applyleavemodal component and mount it on Leave
+- pass in props open, onclose and onsuccess
+- create a loading state var
+- create a today var, a tomorrow var referencing today 
+- use setdate and getdate method on tomorrow to add 1
+- create a mindate = tomorrow.toISOString().split('T')[0];
+- create a handlesubmit function with ehich prevent default refresh
+- after that if(!open) return null
+- in the return div add an onclick for onclose
+- add a div within the main div with a onclick of e.stopPropagation
+- add another div within which will be the header section
+- add a div which contains h2 and p 
+- a button on the same level which has an onclick of onclose and an x icon
+- after the header section, add the form 
+- form will be divided into type, duration, reason and buttons
+- for type - we need a select el with options 
+- for duration, spans and inputs for date with min = mindate
+- for reason, add a label and a textarea
+- for the buttons. add them within a flex div 
+- cancel button onclick of onclose disabled = loading type button 
+- submit button onclick onclose, disabled = loading type submit 
+- dynamic when loading loader icon or send icon 
+- dynamic when loading submitting else submit
 
