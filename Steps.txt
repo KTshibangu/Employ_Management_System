@@ -234,4 +234,31 @@
 - submit button onclick onclose, disabled = loading type submit 
 - dynamic when loading loader icon or send icon 
 - dynamic when loading submitting else submit
-
+- in Payslips.jsx - create a Payslips, employee and loading state var
+- create a isadmin var 
+- create a fetchpayslips usecallback async function which setpayslips to dummy data and settimeout where loading stops
+- when page loads, call fetchpayslips and is also dependencie
+- add another useeffect for if isadmin setemployees to dummy data
+- if loading return loading component
+- in the return div - page title - page sub title is dynamic based on isadmin
+- also isadmin && button for generating slips 
+- create a pay slip folder - create a paysliplist component - copy everything from return in leavehistory
+- modify the table headers and table body
+- replace leaves with payslips and leave with payslip and ensure the body matches what is on the video for payslip ui
+- for the download button add an onclick to window.open to the path of printpayslips 
+- mount the component and pass in the correct props
+- create a generatepayslipform component with empoyees and onsuccess as props
+- create a isopen and loading state var 
+- if is not open return a button for generate payslip with an onclick to setisopen to true
+- create a handlesubmit function with e.preventdefault
+- mount the generatepayslipform component in payslips 
+- in generatepayslipform, in the return div start stying the popup add an x button to setisopen to false
+- after the x button create a form with onsubmit as handle submit
+- first section is employee with the ooptions obtained from mapping the employee array
+- 2nd section is month & year, with option mapped from creating an array of length: 12 and setting (_,i) => i + 1
+- for year it will be an  input with default value new date().getfullyear()
+- for basic salary it will be a normal input with placeholder and required
+- for allowances and deductions - normal input with a defaultvalue
+- in the buttons section, we need two buttons for cancel and generate
+- the cancel btn onclick setisopen to false 
+- the generate btn setisopen to false - disabled when loading - when loading add a loader icon
