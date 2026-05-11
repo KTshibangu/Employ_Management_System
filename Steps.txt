@@ -311,4 +311,28 @@
 - below this create a div which will house a table - thead (description and amount)
 - tbody basic salary - payslip.basicsalary - allowances - deductions - netsalary
 - below this div - add another div for btn - onclick window.print 
+-------------------------------------------------------------------------------------------------------------------------
 
+- create server folder - create server.js 
+- open server in terminal - npm init -y
+- add "type": "module" in package.json - this is to use import in our code
+- npm install express cors dotenv multer jsonwebtoken bcrypt mongoose 
+- npm install --save-dev nodemon
+- in package.json - in script remove test with server : nodemon server.js
+- in the main branch create .gitignore add node_modules and .env 
+- in server.js import express, cors, and 'dotenv/config'
+- create an app
+- create PORT = process.env.PORT || 4000
+- complete the server.js 
+- //Middleware - app.use(cors()) - app.use(express.json()) - app.use(multer().none())
+-//Routes - app.get("/", (req, res) => res.send("Server is running"))
+- app.listen(PORT, () => console.log(`Serevr is running on port ${PORT}`)) 
+- sign into mongo db - create a new project - set up db user - use mongoose driver to connect
+- white list ip adress
+- copy the connection string to .env as MONGODB_URI and add /projectname
+- create a config folder with db.js
+- import mongoose 
+- create a connectdb async function 
+- in the try block - mongoose.connection.on('connected', () => console.log("Database connected")) - await mongoose.connect(process.env.MONGO_URI)
+- export the connectdb function
+- in server.js await call the connectdb 
