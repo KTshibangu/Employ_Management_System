@@ -262,3 +262,53 @@
 - in the buttons section, we need two buttons for cancel and generate
 - the cancel btn onclick setisopen to false 
 - the generate btn setisopen to false - disabled when loading - when loading add a loader icon
+- push code and code rabbit review the code 
+- in the settings page, create a profile, loading, showpasswordmodal state var
+- create a fetchprofile async function setting profile to dummy data
+- when page loads call the fetchprofile function 
+- if loading return the loading component 
+- style the header
+- below that when profile && profile form (put a p tag palceholder as this will be a component)
+- below that the change password trigger
+- in this section the most important thing is the chnage button setshowpasswordmodal to true
+- create a profile form component with initialdata and onsuccess as props
+- create a loading, error, message state var
+- create a handleSubmit which prevents a default 
+- in the return - replace div with a form with onsubmit handlesubmit
+- style the header
+- below that when error && div with a self closing div {error}
+- copy the above and replace error with message and change colors
+- below that add a div within that add a div within that add a div - this div will have name label and input
+- input will be disabled value will show the name and surname no cursor allowed
+- copy this div and change label to email and change input value accordingly
+- copy this div and change the label to  position and its value
+- outside of this div - make another for textarea and its label Bio 
+- for textarea - disabled if isdeleted - defaultvalue and placeholder className dynamic if isdeleted
+- below the textarea - if initialdata.isdeleted = account deactivated - no longer update profile 
+- else a submit button with disabled loading - if loading ? loader icon else save icon 
+- create a changepasswordmodal with open and onclose props
+- create a loading, message state var - message with a state of object {type: "", text: ""}
+- create an async function hadnelsubmit with e.preventdefault 
+- if is not open return null
+- in the return div add an onclick of onclose 
+- add a self closing div and another div with a onclick pf e.stopPropagation
+- add a div within for the change password h2 with lockicon 
+- below it add a X button with an onclick of onclose
+- below that div - add a form with an onsubmit of handlesubmit
+- if message.text return a div with a self closing div with dynamic classes and {message.text}
+- below this - add a div with a label and input for current password
+- replicate the above div but for new password
+- below this div add a div for buttons - cancel button onclick of onclose 
+- update button disabled when loading - loader action when loading
+- in the PrintPayslip page import useParams to import id from payslip
+- create a payslip and loading state var 
+- when this page loads, setpayslip to dummypayslipdata.find(where slip._id === id) and id as dependencie
+- when page loads set time out to 1000 and setloading to false 
+- if loading return Loading component 
+- if no payslip return no payslip found
+- in the return div - we have a PAYSLIP header - and a p text of the date using format 
+- below this div cretae a div with grid to display name & surname - position - email and period
+- below this create a div which will house a table - thead (description and amount)
+- tbody basic salary - payslip.basicsalary - allowances - deductions - netsalary
+- below this div - add another div for btn - onclick window.print 
+
