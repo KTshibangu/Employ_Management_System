@@ -335,4 +335,15 @@
 - create a connectdb async function 
 - in the try block - mongoose.connection.on('connected', () => console.log("Database connected")) - await mongoose.connect(process.env.MONGO_URI)
 - export the connectdb function
-- in server.js await call the connectdb 
+- in server.js await call the connectdb - commit code
+- create a models folder - create a user.js 
+- import mongoose - create a userschema = new mongoose.schema 
+- define email, password, role, timestamp
+- define user mongoose.model.User || mongoose.model("User", userSchema) and export user
+- create the Employee model and copy from User model 
+- adjust for userId type: mongoose.Schema.Types.ObjectId, ref: "User",
+- firstname, lastname, email, phone, position, basicsalary, allowances, deductions, employmentstatus, joindate, isdeleted, bio
+- create a constants folder and department.js - copy from assets.jsx
+- add a departments property with enum DEPARTMENTS
+- create a contoller folder and employeeController.js
+- create the 4 controllers for get, create, update and delete employees 
