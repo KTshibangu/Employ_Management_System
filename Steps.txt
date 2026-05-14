@@ -347,3 +347,168 @@
 - add a departments property with enum DEPARTMENTS
 - create a contoller folder and employeeController.js
 - create the 4 controllers for get, create, update and delete employees 
+- for the get conroller create a trycatch below in an async function
+- destructure the department from the req.query
+- create a where = {} var 
+- and if department then wehre.department = department, this is to filter the database 
+- then const employees await use find to filter the Employee table using where 
+- sort {created: -1} popualte("userId", "email role").lean()
+- create a result var to map employees and return an object with a spread opearator ...emp 
+- set id to emp._id tostring and user to emp.userid if exists return email and role else null
+- return res.json(result) - in the catch block return res.status(500).json(error: "failed to fetch ...")
+- for the createemployee async function destructure everything in form = req.body 
+- if not email, password, firstname and lastname then return status 500 "missing fields required"
+- to encypt the password - import bcrypt 
+- create a hashed var = await bcrypt(password, 10)
+- create a user = await User.create({}) import this from models 
+- pass in what is required - and for role: role || "EMPLOYEE"
+- create employee data for userId: user._id - for department || "engineering"
+- for numbers Number(x) || 0 - for date: new Date(x) - for bio || ""
+- return status 201 success true, employee
+- in the ctch block - if error.code 110000 return status 400 "email exists"
+- console.error("create employee error:", error)
+- return status 500 "failed to create employee"
+- for the updateemployee copy from cretaeemployee 
+- destructure id to req.params
+- remove joindate add employment status
+- const employee use findbyid to filter through the Employee model 
+- if not employee status 404 "employee not found"
+- remove the unnecessary code - remove const employee - change create to findbyidandupdate pass in the id
+- remove the userid, remove joindate and add employmentstatus || "ACTIVE"
+- //update user record
+- const userUpdate = {email} 
+- if role userUpdate.role = role and if password userUpdate.password = await brcypt...
+- await User.findbyidandupdate(employee.userId, userUpdate)
+- return res.json success true - in the catch delete console.error and adjust error message
+- for the deleteemployee contoller - destructure id = req.params 
+- const employee = findbyid(id)
+- if not employee status 404 "employee not found"
+- employee.isdeleted = true;
+- set employmentstatus to "INACTIVE"
+- await employee.save()
+- return res.json({success true})
+- in the catch blow status 500 "Failed to delete"
+- create routes folder and employeeroutes
+- import {router} from express
+- const employeeRouter = router()
+- create the get, post, put and delete routes
+- export default employeerouter
+- in controller folder create authcontrpller.js
+- // login for employee and admin and // POST /api/auth/login
+- create an export const login async function 
+- destructure {email, password and role_type } to req.body 
+- if not email or not password - status 400 - emails and passwords are required
+- const uer = await User.findOne({email})
+- if not user - status 401 - "Invalid credentials"
+- if role_type === admin && user.role !== "ADMIN" - status 401 "not authorized as admin"
+- same for employee
+- create an isvalid var = await bcrypt.compare password with user.passwrod 
+- if is not valid return 401 "invalid credentials"
+- const payload = {userId: user._id.toString(), role: user.role, email: user.email}
+- payload ensures that the info is encoded so that later requestes dont have to hit the db
+- add a JWT_SECRET in .env
+- create token var = jwt.sign(payload, process.env.jwt_secret, {expresin: "7d"}) - ensures to import jwt
+- return res.json({user: payload, token}) 
+- in the catch block - console.error "Login error", error 
+- return status 500 "Login failed"
+- // Get session for employee and admin and // GET /api/auth/session
+- export const session = (req, res) => { const session = req.session; return res.json({user: session}) }
+- // Change password for employee and admin and // POST /api/auth/change-password
+- in the trycatch block - const session = req.session 
+- destructure currentpassword and newpassword from req.body
+- if both are not there - status 400 "both passwrods required"
+- const user = find user by session.userId 
+- if not user - status 404 "User not found"
+- const isvalid = compare currentpassword and user.pasword 
+- if is not valid - status 400 "Current password incorrect"
+- const hashed - hash the new password 
+- await findbyidandupdate using session.userId {password : hashed} and return success 
+- in the error block status 500 - "Failed to change password"
+- create a authroutes - import {Router} from express 
+- create authrouter = router() and create all the routes
+- export default authrouter
+- create a middleware folder with auth.js in it
+- import jwt from jsonwebtoken
+- create an export protect function with req, res, next
+- in the trycatch block - define authHeader = req.headers.authorization 
+- if (!authHeader || !authHeader.startsWith("Bearer ")) return 401 "Unauthorized"
+- get token from authHeader.split(" ")[1]
+- session = jwt.verify(token, process.env.jwt_secret)
+- if not session status 401 "Unauthorized"
+- req.session = session and then call next()
+- in the catch block return status 401 "Unauthorized"
+- create an export protectAdmin function with the same parameters 
+- if req?.session?.role is not "ADMIN" status 403 "Admin Access is required"
+- then call next() 
+- add the protect to the session and changepassword routes 
+- add the protect and protectAdmin to the employees routes 
+- create the apis in the server.js 
+- app.use("/api/auth", authrouter) and ("/api/employee", employeeRouter)
+- create a profilecontroller.js
+- //GET Profile on //GET "/api/profile" create an export getprofuile async function with req,res 
+- in the try block define session = req.session 
+- define employee = await Employee.findOne({userid: session.userId})
+- if (!employee) { //Authenticated user is not an employee - return to admin profile
+            return res.json({
+                firstName: "Admin",
+                lastName: "",
+                email: session.email
+            })
+ }
+ - return res.json(employee)
+ - in the catch block status 500 "failed to fetch profile
+ - //Update Profile on //PUT "/api/profile" create an export updateprofile async function with req,res 
+ - define session and employee again
+ - if not employee status 404 "employee not found"
+ - if employee.isdeleted status 403 "account deactivated, cannot update profile"
+ - await employee.findbyidandupdate pass in employee._id {bio: req.body.bio}
+ - return success
+ - in the catch block status 500 "failed to update profile"
+ - create a profilerouter.js
+ - import {Router } from express and create profileRouter 
+ - get route ("/", protect, getProfile)
+ - post route ("/", protect, updateProfile) it should be put
+ - export the profile router and add this route inn server.js
+ - under models create attendance.js 
+ - copy from User model
+ - employeeId - type : mongoose.Schema.Types.ObjectId, ref "Employee" required: true 
+ - date - type Date , required true
+ - checkin - type Date, default null same with checkout 
+ - status - trpe string, enum: PRESENT, ABSENT, LATE, default PRESENT 
+ - workinghours - type number, default null 
+ - daytype - type string, enum: full day 3/4 day 1/2 day short day null, default null 
+ - after the schema add attendanceSchema.index({employeeId:1, date:1}, {unique:true})
+ - in controller, create attendancecontroller.js
+ - //Clock in/out for employee //POST /api/attendance
+ - create export clockinout function (req, res)
+ - define session and employee using findOne({userId: session.userId})
+ - if not employee 404 "employee not found"
+ - if employee deleted 403 "Your Account Is Deactivated. You Cannot Clock In/Out"
+ - define today = new Date() - sethours(0, 0, 0, 0)
+ - use attendance model to define existing findOne using employee id and date = today
+ - define now = new Date() 
+ - if not existing define isLate = now.getHours >= 9 and minutes > 0
+ - define attendance by await Attendance.create({employeeId, date, checkin, status: isLate ? LATE : PRESENT})
+ - return success type CHECK_IN data attendance
+ - else if not existing.checkOut - define checkintime as new Date(existing.checkIn).gettime()
+ - define diffMs as now.getTime() - checkintime
+ - diffHours as diffMs / 1000 * 60 * 60
+ - existing.checkOut = now 
+ - define workinghours as parsefloat of diffhours to 2 decimal places
+ - let daytype to half day 
+ - use if and else if for >= 8, 6, 4 and else 
+ - set to existing.workinghours and existing.daytype 
+ - await existiing.save()
+ - return success type check_out data existing 
+ - add the overall else status 400 "already checked out" data existing
+ - in the catch block console.error("Attendance Error", error)
+ - and status 500 "Operation failed"
+ - //get attendance for employee //GET /api/attendance
+ - create export async getATtendance function (req, res) - define session and employee like for clockinout 
+ - definie limit parseInt(req.query.limit || 30)
+ - define history await Attendance.find({employeeId: employee._id}).sort({date: -1}).limit(limit)
+ - in the catch block 500 - "Failed to fetch attendance"
+ - create attendancerouter - import {router} from express
+ - const attendancerouter = Router()
+ - define post - protect, clockinout and get getATtendance then export router
+ 
