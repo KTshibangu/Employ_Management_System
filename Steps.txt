@@ -511,4 +511,34 @@
  - create attendancerouter - import {router} from express
  - const attendancerouter = Router()
  - define post - protect, clockinout and get getATtendance then export router
- 
+ - create a leaveApplication model 
+ - schema: employeeId FROM Employee, type - type:string, enum [sick, casual, annual], required true 
+ - startdate, endate date required true, reason type string, required true 
+ - status enum [PEDNING, APPROVED, REJECTED, default PEDNING
+ - crete LeaveApplication mongoose.models.leaveapplication || mongoose.model("LeaveApplication", schema)
+ - export default
+ - create leavecontroller 
+ - //Create leave and //POST /api/leave   
+ - createLevae in the try block get session - use it to findOne in the Employee using userId
+ - if not employee 404 "Employee not found"  
+ - if employee isdeleted 403 "account deactivated ..."
+ - destructure type, startDate, endDate, reason from req.body    
+ - if any of these are not present 404 Missing fields
+ - define today and sethours to midnight
+ - startdate <= today or enddate <= today - 403 "leave days must be in the future" 
+ - endDate < startDate 403 - "End Date Cannot Be Before Start Date"
+ - define leave as await leaveapplication.create 
+ - pass in employeeId as employee._id 
+ - type, new Date(startDate), new Date(endDate), reason, status "PEDNING"    
+ - return true , data : leave 
+ - in the else blcok - define employee from employee model findone with userid and .lean()
+ - if not employee 404 "Employee Not Found"
+ - define leaves as going to the leaveapplication model and find() employeeId  and sort  -1
+ - res.json data: leaves and employee: {...employee, id: employee._id.toString()}
+ - catch block 500 "Failed to get Levaes"          
+ - create a updateleavestatus (res, req)
+ - destructure status from req.body
+ - if(!["APPROVED", "REJECTED", "PENDING"].includes(status)) -> 400 "Invalid status"
+ - define leave as await findbyidandupdate Leave model (req.params.id, {status}, {new: true})
+ - if not leave 400 "No leave found"    
+ - in the catch block 500 "Failed to update leave status"                                                                                                                                                                                                                                                                  ]
