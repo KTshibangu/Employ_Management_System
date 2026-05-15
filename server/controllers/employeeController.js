@@ -12,10 +12,9 @@ export const getEmployees = async (req, res) => {
         const where = {};
         if (department) where.department = department;
 
-        const employees = (await Employee.find(where)).toSorted
-            ({ createdAt: -1 }).populate("userId", "email role").lean();
+        const employees = await Employee.find(where).sort({ createdAt: -1 }).populate("userId", "email role").lean();
 
-        const result = employess.map((emp) => ({
+        const result = employees.map((emp) => ({
             ...emp,
             id: emp._id.toString(),
             user: emp.userId ? { email: emp.userId.email, role: emp.userId.role } : null
@@ -100,7 +99,8 @@ export const updateEmployees = async (req, res) => {
         })
 
         // Update user record
-        const userUpdate = {email}
+        const userUpdate = {}
+        if(email) userUpdate.email = email;
         if(role) userUpdate.role = role;
         if(password) userUpdate.password = await bcrypt.hash(password, 10);
         await User.findByIdAndUpdate(employee.userId, userUpdate)
