@@ -1,6 +1,6 @@
 import mongoose, { mongo } from 'mongoose'
 
-const leaveApplicationSchema = new mongo.Schema({
+const leaveApplicationSchema = new mongoose.Schema({
     employeeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Employee",
