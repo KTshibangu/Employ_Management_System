@@ -547,10 +547,27 @@
  - create payslip schema with employeeId, month, year, basicsalary, allowances, deductions, netsalary
  - allowances and deductions default value of 0 and not required    
  - create a payslip controller.js
- -// GET payslip and //GET /api/payslip const getpayslips  
+ -// Create payslip and //POST /api/payslip const createpayslips  
  - in the try block destructure employeeId, month, year, basicSalary, allowances, deductions from req.body
  - if not the required fields 400 "missing fields are required"
  - define netsalary 
  - define payslip using Payslip model - pass in the reqwuired data 
  - use Number for the number fieedks and the or operator for where default 0
-                                                                                                                                                                                                                                                      ]
+ - // GET payslip and //GET /api/payslip const getpayslips 
+ - get session from middleware - const isadmin = session.role is ADMIN
+ - if isadmin definde payslips by calling model and find().populate("employeeId").sort({crate -1})
+ - define data as the map method of payslips -> const obj = p.toObject()
+ - return {..obj, id: Object._id.toString(), employee: obj.employeeId, employeeId: obj.employeeId?._id?.toString()}
+ - return {data}
+ - in the else block define employee as findOne of Employee using userId as session.userId
+ - if not employee 404 "employee not found"
+ - const payslips and we use the employeeid to find and sort to {created: -1}
+ - return res.json({data : payslips})
+ - // GET by payslip and //GET /api/payslip:id const getpayslipsbyid
+ - define payslip as a findbyid use id from params on payslip model - populate by employeeId and lean 
+ - if not slip - 404 "payslip not found"
+ - define result as an object {...payslip, id: payslip._id.toString(), employee: payslip.employeeId}
+ - define paysliproutes post both protect - the rest one protect 
+ - import this routes to server.js
+ 
+                                                                                                                                                                                                                                                 ]

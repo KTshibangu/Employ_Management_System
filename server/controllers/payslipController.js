@@ -1,18 +1,12 @@
-import Payslip from "../models/Payslip";
+import Payslip from "../models/Payslip.js";
 
 // Create payslip
 //POST /api/payslip
 export const createPayslip = async (req, res) => {
-
-}
-
-// GET payslip
-//GET /api/payslip
-export const getPayslips = async (req, res) => {
     try {
         const { employeeId, month, year, basicSalary, allowances, deductions } = req.body;
 
-        if (!emplloyeeId || !month || !year || !basicSalary) {
+        if (!employeeId || !month || !year || !basicSalary) {
             return res.status(400).json({ error: "Missing fields" })
         }
 
@@ -29,12 +23,54 @@ export const getPayslips = async (req, res) => {
         })
         return res.json({ success: true, data: payslip })
     } catch (error) {
-        return res.status(500).json({error : "Failed To Create Payslip"})
+        return res.status(500).json({ error: "Failed To Create Payslip" })
+    }
+}
+
+// GET payslip
+//GET /api/payslip
+export const getPayslips = async (req, res) => {
+    try {
+        const session = req.session
+        const isAdmin = session.role === "ADMIN"
+        if (isAdmin) {
+            const payslips = await Payslip.find().populate("employeeId").sort({ createdAt: -1 })
+            const data = payslips.map((p) => {
+                const obj = p.toObject()
+                return {
+                    ...obj,
+                    id: obj._id.toString(),
+                    employee: obj.employeeId,
+                    employeeId: obj.employeeId?._id?.toString()
+                }
+            })
+            return res.json({data})
+        } else {
+            const employee = await Employee.findOne({userId: session.userId})
+            if(!employee) return res.status(404).json({error: "Employee Not Found"})
+            const payslips = await Payslip.find({employeeId: employee._id}).sort({createdAt: -1})
+            return res.json({data : payslips})
+        }
+    } catch (error) {
+        return res.status(500).json({ error: "Failed To Get Payslip" })
     }
 }
 
 // GET payslip by Id
 //GET /api/payslip:id
-export const getPayslip = async (req, res) => {
+export const getPayslipById = async (req, res) => {
+    try {
+        const payslip = await Payslip.findById(req.params.id).populate("employeeId").lean()
+        if(!payslip) return res.status(404).json({error : "Not Found"})
 
+        const result = {
+            ...payslip,
+            id: payslip._id.toString(),
+            employee: payslip.employeeId
+        }
+
+        return res.json(result)
+    } catch (error) {
+        return res.status(500).json({ error: "Failed To Get Payslip" })
+    }
 }
