@@ -541,4 +541,16 @@
  - if(!["APPROVED", "REJECTED", "PENDING"].includes(status)) -> 400 "Invalid status"
  - define leave as await findbyidandupdate Leave model (req.params.id, {status}, {new: true})
  - if not leave 400 "No leave found"    
- - in the catch block 500 "Failed to update leave status"                                                                                                                                                                                                                                                                  ]
+ - in the catch block 500 "Failed to update leave status"  
+ - create a leaveroute.js - portect all routes and protect admin the updateleavestatus
+ - in server.js import the leave route and app.use 
+ - create payslip schema with employeeId, month, year, basicsalary, allowances, deductions, netsalary
+ - allowances and deductions default value of 0 and not required    
+ - create a payslip controller.js
+ -// GET payslip and //GET /api/payslip const getpayslips  
+ - in the try block destructure employeeId, month, year, basicSalary, allowances, deductions from req.body
+ - if not the required fields 400 "missing fields are required"
+ - define netsalary 
+ - define payslip using Payslip model - pass in the reqwuired data 
+ - use Number for the number fieedks and the or operator for where default 0
+                                                                                                                                                                                                                                                      ]

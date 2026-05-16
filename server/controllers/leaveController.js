@@ -18,7 +18,7 @@ export const createLeave = async (req, res) => {
 
         const { type, startDate, endDate, reason } = req.body;
         if (!type || !startDate || !endDate || !reason) {
-            res.status(400).json({ error: "Missing Fields" })
+            return res.status(400).json({ error: "Missing Fields" })
         }
 
         const today = new Date();
