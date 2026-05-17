@@ -569,5 +569,25 @@
  - define result as an object {...payslip, id: payslip._id.toString(), employee: payslip.employeeId}
  - define paysliproutes post both protect - the rest one protect 
  - import this routes to server.js
- 
-                                                                                                                                                                                                                                                 ]
+ - commit code 
+ - create a dashbaordcontroller
+ - //GET dashboard for employee and admin & //GET /api/dashboard
+ - create a getdashbaord - define isadmin using session 
+ - if isadmin const [totalemployees, todayattendance, pendingleave] = await Promise.all([])
+ - countdocuments of employee filter by {isdeleted: {$ne: true}}
+ - countdocuments of attendance filter by date - $gte new date(new date().sethours(0)), $lt: ...sethours(24)
+ - countdocuments of leaveapplication sort by statys pending
+ - return res.json (role, totalemployees, total departments, total attendance, pendng leaves)
+ - in the else block - define employee by findOne(userId ) in the Employee model and lean()
+ - if not employee 404 "employee not found"   
+ - define today as new Date()
+ - define [currentMonthAttendance, PendingLeaves, latestPayslip] 
+ - as Promise.all , countdocuments of Attendance - get employeeid and date 
+ - date {$gte : ew Date(today.getFullYear(), today.getMonth(), 1),$tt: new Date(today.getFullYear(), today.getMonth() + 1, 1)}  
+ - For leaveApplication {employeeId and status "pending"}
+ - for Payslip findOne() filter by employeeid sort and lean()         
+ - return a res with role "employee", employee: spread operator id stringify id, currentMonthAttendance, pendingleave
+ - latestPayslip: latestPayslip ? {...latestPayslip, id: latestPayslip._id.toString()} : null
+ - in the catch block console.error and return 500 "failed to get dashboard"
+ - define route in dashbaordroutes, protect this route and then import it to server.js
+                                                                                                                                                                                                                            ]
