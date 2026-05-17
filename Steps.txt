@@ -590,4 +590,26 @@
  - latestPayslip: latestPayslip ? {...latestPayslip, id: latestPayslip._id.toString()} : null
  - in the catch block console.error and return 500 "failed to get dashboard"
  - define route in dashbaordroutes, protect this route and then import it to server.js
+ - create seed.js under server folder 
+ - import dotenv/config and connectDB from db.js 
+ - define a tempPassword e.g "admin123"
+ - create a registerAdin async function 
+ - add an ADMIN_EMAIL in .env e.g "admin@xyz.com"
+ - define this ADMIN_EMAIL by using process.env - if not ADMIN_EMAIL console.error "missing admin email"
+ - process.exit(1) 
+ - await connectDB()
+ - define existiingadmin by findOne in User using email = process.env.ADMIN_EMAIL
+ - If existiingadmin - console.error ("User Already Exists As Role", existingAdmin.role)
+ - process.exit(0)
+ - import bcrypt
+ - define hashedpassword using await bcrypt
+ - define admin - await User,create input email and password 
+ - console.log("Admin User Created") console.log("\nemail", admin.email) console.log("password", TemporaryPassword)
+ - console.log("\nChange The Password After Login.")
+ - then process.exit(0)
+ - in the catch block console.error "Seed failed", error
+ - lastly call the registerAdmin function
+ - in package-json - in scripts - add "seed": "node seed.js"
+ - npm run seed to create the admin user 
+ 
                                                                                                                                                                                                                             ]

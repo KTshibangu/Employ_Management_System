@@ -19,7 +19,7 @@ export const getDashboard = async (req, res) => {
                 Attendance.countDocuments({
                     date: {
                         $gte: new Date(new Date().setHours(0, 0, 0, 0)),
-                        $lte: new Date(new Date().setHours(24, 0, 0, 0))
+                        $lt: new Date(new Date().setHours(24, 0, 0, 0))
                     }
                 }),
                 LeaveApplication.countDocuments({status: "PENDING"})
@@ -34,7 +34,7 @@ export const getDashboard = async (req, res) => {
             })
         } else {
             const employee = await Employee.findOne({userId: session.userId}).lean()
-            if(!employee) return res.status(400).json({error: "Employee Not Found"})
+            if(!employee) return res.status(404).json({error: "Employee Not Found"})
 
             const today = new Date()
             const [currentMonthAttendance, PendingLeaves, latestPayslip] = await Promise.all([
@@ -42,7 +42,7 @@ export const getDashboard = async (req, res) => {
                     employeeId: employee._id,
                     date: {
                         $gte: new Date(today.getFullYear(), today.getMonth(), 1),
-                        $lte: new Date(today.getFullYear(), today.getMonth() + 1, 1)
+                        $lt: new Date(today.getFullYear(), today.getMonth() + 1, 1)
                     }
                 }),
                 LeaveApplication.countDocuments({
