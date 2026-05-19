@@ -812,5 +812,56 @@
         }
     ]
 }
- - 
+ - register on vercel and deploy server 
+ - take the server url and sync app in inngest 
+ - install axios in client 
+ - create a .env under client add a vitebaseurl = 4000
+ - create a api folder undeer src and create axios.js 
+ - import axios and define api as axios.create({baseURL: (import.meta.env.VITE_BASE_URL || "http://localhost:4000")}) + "api"
+ - //Attach Auth token to all network requests
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token")
+    if(token) {
+        config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+}) 
+ - then export default api
+ - create a context folder with AuthContext.jsx 
+ - define AuthContext as createContext(null)
+ - export function AuthProvider({children}) {
+
+    value = {}
+
+    return <AuthContext.Provider value={}>
+        {children}
+    </AuthContext.Provider>
+}
+ - export function useAuth() {
+    const ctx = useContext(AuthContext)
+    if(!ctx) throw new Error("useAuth must be used within AuthProvider")
+    return ctx
+} 
+ - create state var user, token and loading = null , localStorage.getItem("token"), true
+ - define an async refreshSession function - define storedToken = .getItem("token)
+ - if not storedToken setUser and setToekn null and setLaoading false and return
+ - out of the if block input a trycatch block
+ - in the ty destructure data to await api.get("/auth/drddion") and setUser(data.user)
+ - in the catch block // Token is not valid , clear it
+ - localStorage.removeItem("item"), setuser(null), setToken(null)
+ - in the finally block setLoading to false
+ - call refreshSession when component loads 
+ - define login as async (email, password, role_type) 
+ - in login destructure data = await api.post("/auth/login", {email, password, role_type})
+ - localStorage.setItem("token", data.token), setToken(data.token), setUser(data.user), return data.user
+ - for the logout function removeItem token and settoken and set user to null 
+ - pass all user, token, loading, login ,logout, refreshSession inside value 
+ - import {AuthProvider} into main.jsx and wrap App with it 
+ - in the loginform.jsx - import useAuth() and destructure login 
+ - define navigate = usenavigate()
+ - in the handlesubmit function seterror(""), setloading true 
+ - add a trycatch - in the try block await login(email, password, role_type) - navigate("/dashboard)
+ - in the catch block - toast.error(error.response?.data.error || error.message || "Login Failed")
+ - in the finally block - setLoading false
+
                                                                                                                                                                                                                             ]
