@@ -14,11 +14,11 @@ const autoCheckOut = inngest.createFunction(
         const { employeeId, attendanceId } = event.data
 
         //Wait for 9 hours
-        await step.sleepUntil("wait-for-the-9-hours", new Date(new Date).getTime() + 9 * 60 * 60 * 1000)
+        await step.sleepUntil("wait-for-the-9-hours", new Date(new Date().getTime() + 9 * 60 * 60 * 1000))
 
         //get Attendance data
         let attendance = await Attendance.findById(attendanceId)
-        if (!attendance?.checkout) {
+        if (!attendance?.checkOut) {
             //get Employee Data
             const employee = await Employee.findById(employeeId)
 
@@ -32,10 +32,10 @@ const autoCheckOut = inngest.createFunction(
                         <p style="font-size: 18px; font-weight: bold; color: #007bff; margin: 8px 0;">
                             ${attendance?.checkIn?.toLocaleTimeString()}
                         </p>
-                        <p style="font-size: 16px;>
+                        <p style="font-size: 16px;">
                             Please make sure to check-out in one hour
                         </p>
-                        <p style="font-size: 16px;>
+                        <p style="font-size: 16px;">
                             If you have any questions, please contact your admin.
                         </p>
                         <br/>
@@ -45,11 +45,11 @@ const autoCheckOut = inngest.createFunction(
             })
 
             //After 10 hours, mark attendance as checked out with status late
-            await step.sleepUntil("wait-for-the-9-hours", new Date(new Date).getTime() + 9 * 60 * 60 * 1000)
+            await step.sleepUntil("wait-for-the-1-hour", new Date(new Date().getTime() + 9 * 60 * 60 * 1000))
 
             attendance = await Attendance.findById(attendanceId)
             if (!attendance?.checkOut) {
-                attendance.checkOut = new Date(attendance.checkIn).getTime() + 4 * 60 * 60 * 100
+                attendance.checkOut = new Date(attendance.checkIn).getTime() + 4 * 60 * 60 * 1000
                 attendance.workingHours = 4
                 attendance.dayType = "Half Day"
                 attendance.status = "LATE"
@@ -83,7 +83,7 @@ const leaveApplicationReminder = inngest.createFunction(
                         <p style="font-size: 18px; font-weight: bold; color: #007bff; margin: 8px 0;">
                             ${leaveApplication?.startDate?.toLocaleDateString()}
                         </p>
-                        <p style="font-size: 16px;>
+                        <p style="font-size: 16px;">
                             Please make sure to take action on this leave application.
                         </p>
                         <br/>
@@ -104,7 +104,7 @@ const attendanceReminderCron = inngest.createFunction(
         //Step 1: Get today's date range (SAST)
         const today = await step.run("get-today-date", () => {
             const startSAST = new Date(new Date().toLocaleDateString("en-CA", { timeZone: "Africa/Johannesburg" }) +
-                "T00:00:00 +02:00");
+                "T00:00:00+02:00");
             const endSAST = new Date(startSAST.getTime() + 24 * 60 * 60 * 1000);
             return { startSAST: startSAST.toISOString(), endSAST: endSAST.toISOString() }
         })
@@ -148,13 +148,13 @@ const attendanceReminderCron = inngest.createFunction(
 
         //Step 5: Filter absent employees (not on leave & not checked in)
         const absentEmployees = activeEmployees.filter((emp) =>
-            !onLeaveIds.includes(emp._id) && !checkedInIds.includes(emp._id)
+            !onLeaveIds.includes(emp._id) && !checkInIds.includes(emp._id)
         )
 
         //Step 6 Send reminder emails
         if (absentEmployees.length > 0) {
             await step.run("send-reminder-emails", async () => {
-                const emailPromises = absentEmployees.map((emp) => {
+                await Promise.all(absentEmployees.map((emp) => {
                     //send email
                     sendEmail({
                         to: emp.email,
@@ -171,14 +171,14 @@ const attendanceReminderCron = inngest.createFunction(
                                 <p style="font-size: 16px;"><strong>QuickEMS</strong></p>
                             </div>`
                     })
-                })
+                }))
             })
         }
 
         return {
             totalActive: activeEmployees.length,
             onLeave: onLeaveIds.length,
-            checkedIn: checkedInIds.length,
+            checkedIn: checkInIds.length,
             absent: absentEmployees
         }
     }

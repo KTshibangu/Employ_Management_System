@@ -694,9 +694,9 @@
  -         //Step 6 Send reminder emails
         if(absentEmployees.length > 0) {
             await step.run("send-reminder-emails", async () => {
-                const emailPromises = absentEmployees.map((emp) => {
+                await Promise.all(absentEmployees.map((emp) => {
                     //send email
-                })
+                }))
             })
         }
 
@@ -778,9 +778,9 @@
                                 <p style="font-size: 16px;"><strong>QuickEMS</strong></p>
                             </div> 
  -
- - in attendancecontroller - import inngest - after the attendance has been created, use the .send method 
+ - in attendancecontroller - import inngest - after the attendance has been created, in a trycatch use the .send method 
  - name is the trigger and data employeeId: employee._id, attendanceId: attendance._id 
- - in the leavecontroller - import inngest - after the leave is created use s.send method 
+ - in the leavecontroller - import inngest - after the leave is created, in a trycatch use s.send method 
  - name: "leave/pending", data : {leaveApplicationId: leave._id}
  - create a vercel.json udeer server
  - {
