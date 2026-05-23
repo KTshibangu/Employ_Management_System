@@ -20,6 +20,8 @@ const Attendance = () => {
       if(json.employee?.isDeleted) setIsDeleted(true)
     } catch (error) {
       toast.error(error?.response?.data.error || error.message)
+      setHistory([])
+      setIsDeleted(false)
     } finally {
       setLoading(false)
     }
