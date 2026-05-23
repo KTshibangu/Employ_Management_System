@@ -172,6 +172,8 @@ const attendanceReminderCron = inngest.createFunction(
                             </div>`
                     })
                 }))
+
+                return {emailsSent: absentEmployees.length}
             })
         }
 

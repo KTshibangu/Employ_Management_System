@@ -27,7 +27,6 @@ const LoginForm = ({ role, title, subtitle }) => {
         } finally {
             setLoading(false)
         }
-
     }
     return (
         <div className='min-h-screen flex flex-col md:flex-row'>
@@ -43,7 +42,7 @@ const LoginForm = ({ role, title, subtitle }) => {
                     </div>
                     {
                         error && (
-                            <div className='mb-6 p-4 bg-rose-50 borrder border-rose-200 text-rose-700 text-sm rounded-xl flex items-start gap-3'>
+                            <div className='mb-6 p-4 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-xl flex items-start gap-3'>
                                 <div className='w-1.5 h-1.5 rounded-full bg-rose-500 mt-1.5 shrink-0' />
                                 {error}
                             </div>
@@ -68,13 +67,13 @@ const LoginForm = ({ role, title, subtitle }) => {
                                 </button>
                             </div>
                         </div>
-                        <button type='button'
+                        <button type='submit'
                         disabled={loading}
                         className='w-full py-3 bg-linear-to-r from-indigo-600 to-indigo-500 text-white rounded-md text-sm font-semibold
                         hover:from-indigo-700 hover:to-indigo-600 disabled:opacity-50 transition-all duration-200 shadow-lg shadow-indigo-500/25
                         active:scale-[0.98] flex items-center justify-center cursor-pointer'>
                             {
-                                loading && <Loader2Icon className='aniamte-spin h-4 w-4 mr-2'/>
+                                loading && <Loader2Icon className='animate-spin h-4 w-4 mr-2'/>
                             }
                             Sign In
                         </button>
