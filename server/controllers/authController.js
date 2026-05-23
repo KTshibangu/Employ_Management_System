@@ -20,7 +20,7 @@ export const login = async (req, res) => {
             return res.status(401).json({error: "Invalid credentials"})
         }
 
-        if(role_type === "admin" && user.role !== "ADMIIN") {
+        if(role_type === "admin" && user.role !== "ADMIN") {
             return res.status(401).json({error: "Not authorized as admin"})
         }
 

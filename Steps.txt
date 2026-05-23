@@ -863,5 +863,104 @@ api.interceptors.request.use((config) => {
  - add a trycatch - in the try block await login(email, password, role_type) - navigate("/dashboard)
  - in the catch block - toast.error(error.response?.data.error || error.message || "Login Failed")
  - in the finally block - setLoading false
+ - in layout.jsx import useAuth and destructure user and loading 
+ - if loading return Loading
+ - if not user return <Navigate to="/login"/>
+ - copy the above code to LogingLanding - change if user Navigate to="/"
+ - this is to ensure once logged in you can not manually go to the login page
+ - in the sidebar to update the information - import useAuth and destructure user,loading and logout
+ - in the useeffect - remove dummy data call the api api.get("/profile").then({data}) => 
+ - if data.firstname setusername to $data.firstname $data.lastname || "" .trim()
+ - in the navigationlist section - add loading ? return loader2icon with span loading... else 
+ - copu navitems.map in the else block
+ - in handlelogout call first logout()
+ - in dashbaord page - when page loads make the api call to get '/dashboard'.then - res => setdata res.data 
+ - .catch err toast.error(err.response?.data?.error || err.message) .finally setloadiing false 
+ - in employees page - clear the fetchemployees function - add a trycatch block 
+ - const url = selecteddept ? `/employees?department=${selectedDept}` : "/employees";
+ - const res = api.get(url) - setemployees(res.data)
+ - in the catch block - console.error "failed to fetch employees"
+ - finally setlaoding to false - dependencie selectedDept
+ - go to the employeeform - in the handlesumbit const formData = new FormData(e.currentTarget)
+ - if iseditmode const pwd = formdata.get("password")
+ - if not pwd formdata delete ("password")
+ - after that - in trycatch block - define url as iseditmode ? "/employees:${initialdata.id}" : "/employees"
+ - define method as iseditmode ? "put" "post" 
+ - then await api[method](url, formdata)
+ - then onSuccess ? onSuccess() : navigate("/employees")
+ - in the caatch block - toast.error(err.response?.data?.error || err.message)
+ - in the finally block setloading to false 
+ - in the EmployeeCard - in the handledelete function add a trycatch block
+ - await api.delete("/employees/${employee.id}") and then onDelete()
+ - catch the error
+ - In leave.jsx - import useAuth and destructure user 
+ - modify isAdmin to user?.role === "ADMIN"
+ - add an async to fetchleaves - remove everything which relates to dummyData
+ - add a trycatch block - const res = await api.get('/leave'); 
+ - and setLeaves to res.data.data || []
+ - if res.data.employee?.isDeleted return setIsDeleted(true)
+ - in the catch - toast.error(error?.response?.data.error || error.message)
+ - in the finally - setLoading to true 
+ - in the ApplyLeaveModal - in the handleSubmit function set loading to true 
+ - define formData 
+ - const data = Object.fromEntries(formData.entries())
+ - trycatch - in the try block await api.post('/leave', data) - onsuccess(), onclose()
+ - in the catch blokck - toast.error(error?.response?.data.error || error.message)
+ - go to the submit button remove onclick onclose
+ - go to leavehistory - in the handlestatusupdate function - trycatch block 
+ - call api.patch(`/leave/${id}`, {status}) and onUpdate()
+ - in the catch block - toast.error(error?.response?.data.error || error.message)
+ - in the finally block - setprocessing none
+ - in the attendance.jsx - in the fetchdata - delete the dummy data 
+ - const res = await api.get( "/attendance") - const json = res.data 
+ - sethistory(res.data || [])
+ - if(json.employee?.isDeleted) setIsDeleted(true)
+ - in the catch block - toast.error(error?.response?.data.error || error.message) 
+ - in the finally block - setloding to false
+ - in the checkinbutton - ada a trycatch below await apipost("/attedance") - onAction()
+ - in the catch block toast.error(error?.response?.data.error || error.message)
+ - below setloading to true
+ - fix ischeckedIn to !!todayRecord?.checkIn; so that it shows checkout once checked in
+ - in the Payslip.jsx destructure user using useAuth 
+ - define isAdmin using user and role  
+ - in fetchpayslups - trycatch block 
+ - in the try res = await api.get("/payslips")
+ - setpayslips res.data.data || []
+ - in the catch block - toast and finally set loading to false
+ - in the generatepayslipform - in the handleSubmit function setloadiing true 
+ - define formdata = new FormData(e.currentTarget)
+ - define data as Object.fromEntries(formdata.entries())
+ - in the try block call api.post("/payslips", data) - then setisopen false - onsuccess()
+ - then toast in the catch block
+ - after the block set loading false and remove the onclick on the generate button
+ - in printpayslip - call the api when the component loads 
+ -     api.get(`/payslips/${id}`).then(
+      (res) => setPayslip(res.data)).catch(
+      console.error).finally(() => setLoading(false)
+    )
+ - in the settings page - trycatch block - define res as api.get("/profile")
+ - const profile = res.data - if profile setprofile(profile)
+ - in the catch block toast 
+ - finally setloading false
+ - in the profile form component - setlaoding to true - seterror and setmessage to ""
+ - define formdata = new FormData(e.currentTarget)
+ - in the try block = await api.post("/profile", formData)
+ - setmessage (... successfully)
+ - onsuccess()
+ - in the caatch block seterror (error?.response?.data.error || error.message)
+ - finally setloading false
+ - in the changepasswordmodal - handlesubmit - setloading true 
+ - setmessage({type "", text ""})
+ - const formData is new FormData(e.currentTarget)
+ - currentpassword formdata.get("currentpassword") - new password same 
+ - in the try block - const {data} = await api.post("/auth/change-password", {currentPassword, newPassword})
+ - if not data.success throw new Error(data.error || "Failed To Change Password")
+ - setmessage to type "success" and text ".... updated successfully" - e.target.reset()
+ - in the catch block - seterror({type "error", text error.message})
+ - finally setloading to false
+
+
+
+
 
                                                                                                                                                                                                                             ]

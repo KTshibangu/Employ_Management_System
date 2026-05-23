@@ -17,6 +17,7 @@ export const protect = (req, res, next) => {
         req.session = session
         next()
     } catch (error) {
+        console.log("JWT Error:", error.message)
         return res.status(401).json({error: "Unauthorized"})
     }
 }
