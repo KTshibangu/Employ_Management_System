@@ -22,7 +22,7 @@ const ChangePasswordModal = ({ open, onClose }) => {
                 setMessage({type: "success", text: "Password Updated Successfully"})
                 e.target.reset()
         } catch (error) {
-            setMessage({type: "error", text: error.message})
+            setMessage({type: "error", text: error?.response?.data?.error || error.message})
         } finally {
             setLoading(false)
         }

@@ -10,13 +10,27 @@ const Sidebar = () => {
     const { pathname } = useLocation()
     const [userName, setUserName] = useState("");
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [profileLoading, setProfileLoading] = useState(true);
 
-    const {user, loading, logout} = useAuth()
+    const { user, logout } = useAuth()
 
     useEffect(() => {
-        api.get("/profile").then(({data}) => {
-            if(data.firstName) setUserName(`${data.firstName} ${data.lastName} `|| "".trim())
-        })
+        let active = true
+        const fetchProfile = async () => {
+            try {
+                const { data } = await api.get("/profile")
+                const fullName = data?.firstName
+                    ? [data.firstName, data.lastName].filter(Boolean).join(" ")
+                    : ""
+                if (active) setUserName(fullName)
+            } catch (e) {
+                if (active) setUserName("")
+            } finally {
+                if (active) setProfileLoading(false)
+            }
+        }
+        fetchProfile()
+        return () => { active = false }
     }, [])
 
     //close mobile menu on route change
@@ -26,18 +40,18 @@ const Sidebar = () => {
 
     const role = user?.role;
     const navItems = [
-        {name: "Dashboard", href: "/dashboard", icon: LayoutGridIcon},
+        { name: "Dashboard", href: "/dashboard", icon: LayoutGridIcon },
         role === "ADMIN" ?
-        {name: "Employees", href: "/employees", icon: UserIcon} :
-        {name: "Attendance", href: "/attendance", icon: Calendar1Icon},
-        {name: "Leave", href: "/leave", icon: FileTextIcon},
-        {name: "Payslips", href: "/payslips", icon: DollarSignIcon},
-        {name: "Settings", href: "/settings", icon: SettingsIcon},
+            { name: "Employees", href: "/employees", icon: UserIcon } :
+            { name: "Attendance", href: "/attendance", icon: Calendar1Icon },
+        { name: "Leave", href: "/leave", icon: FileTextIcon },
+        { name: "Payslips", href: "/payslips", icon: DollarSignIcon },
+        { name: "Settings", href: "/settings", icon: SettingsIcon },
     ]
-    
+
     const handleLogout = () => {
         logout()
-        window.location.href = '/login' 
+        window.location.href = '/login'
     }
     const sidebarContent = (
         <>
@@ -83,37 +97,37 @@ const Sidebar = () => {
             {/* Navigation List */}
             <div className='flex-1 px-3 space-y-0.5 overflow-y-auto'>
                 {
-                    loading ? (
+                    profileLoading ? (
                         <div className='px-3 flex items-center gap-2 text-slate-500'>
                             <Loader2Icon className='animate-spin w-4 h-4' />
                             <span className='text-sm'>Loading...</span>
                         </div>
                     ) : (
                         navItems.map((item) => {
-                    const isActive = pathname.startsWith(item.href)
-                    return (
-                        <Link key={item.name} to={item.href} className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px]
-                        font-medium transition-all duration-150 relative ${isActive ? "bg-indigo-500/12 text-indigo-300" : 
-                        "text-slate-300 hover:text-white hover:bg-white/4"
-                        }`}>
-                            {isActive && <div className='absolute left-0 top-1/2 -translate-y-1/2 w-0.75 h-5 rounded-r-full bg-indigo-500' />}
-                            <item.icon className={`w-4.25 h-4.25 shrink-0 ${isActive ? "text-indigo-300" : 
-                            "text-slate-400 group-hover:text-slate-300"}`}/>
-                            <span className='flex-1'>{item.name}</span>
-                            {isActive && <ChevronRightIcon className='w-3.5 h-3.5 text-indigo-500/50'/>}
-                        </Link>
-                    )
-                })
+                            const isActive = pathname.startsWith(item.href)
+                            return (
+                                <Link key={item.name} to={item.href} className={`group flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px]
+                        font-medium transition-all duration-150 relative ${isActive ? "bg-indigo-500/12 text-indigo-300" :
+                                        "text-slate-300 hover:text-white hover:bg-white/4"
+                                    }`}>
+                                    {isActive && <div className='absolute left-0 top-1/2 -translate-y-1/2 w-0.75 h-5 rounded-r-full bg-indigo-500' />}
+                                    <item.icon className={`w-4.25 h-4.25 shrink-0 ${isActive ? "text-indigo-300" :
+                                        "text-slate-400 group-hover:text-slate-300"}`} />
+                                    <span className='flex-1'>{item.name}</span>
+                                    {isActive && <ChevronRightIcon className='w-3.5 h-3.5 text-indigo-500/50' />}
+                                </Link>
+                            )
+                        })
                     )
                 }
-                
+
             </div>
 
             {/* Logout link */}
             <div className='p-3 border-t border-white/6'>
                 <button onClick={handleLogout} className='flex items-center gap-3 w-full px-3 py-2.5 rounded-md text-[13px] font-medium text-slate-400
                 hover:text-rose-400 hover:bg-rose-500/8 transition-all duration-150 cursor-pointer'>
-                    <LogOutIcon className='w-4.25 h-[1ppx]'/>
+                    <LogOutIcon className='w-4.25 h-[1ppx]' />
                     <span>Log Out</span>
                 </button>
             </div>
